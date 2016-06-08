@@ -30,7 +30,7 @@ class WebParser():
         rants_text = re.findall('text\":\"(.*?)\",', str(raw_rants), re.S)
         rants_ids = re.findall('\"id\":(.*?),\"text\":', str(raw_rants), re.S)
         rants_users = re.findall('user_username\":\"(.*?)\",\"user_score\"', str(raw_rants), re.S)
-        rants_comments = re.findall('comments\"(.*?)}]', str(raw_rants), re.S)
+        rants_comments = re.findall(',\"comments\"(.*?)}]', str(raw_rants), re.S)
         
         index = 0
         rants = []
@@ -39,23 +39,17 @@ class WebParser():
             index += 1
         
         for rant in rants:
-            rant[1] = rant[1].replace("\\n", "\n")
-            rant[1] = rant[1].replace("\\r", "\n")
-            rant[1] = rant[1].replace("\\", "")
+            rant[1] = self.__cleanup_rant_text(rant[1])
         
             if None != rant[3]:
-                print("processing comments")
                 comments = []
                 for raw_comment in rant[3]:
                     raw_comment_text = re.findall('body\":\"(.*?)\",', str(raw_comment), re.S)
                     raw_comment_user = re.findall('username\":\"(.*?)\",', str(raw_comment), re.S)
-                    index = 1
+                    index = 0
                     for comment_text in raw_comment_text:
                         #print("Raw comment " + raw_comment_text)
-                        comment_text = comment_text.replace("\\n", "\n")
-                        comment_text = comment_text.replace("\\r", "\n")
-                        comment_text = comment_text.replace("\\", "")
-                        comment_text = comment_text.replace("\\\\", "")
+                        comment_text = self.__cleanup_rant_text(comment_text)
                         comment = Comment()
                         comment.text = comment_text
                         comment.user = raw_comment_user[index]
@@ -65,3 +59,19 @@ class WebParser():
                 rant[3] = comments
             
         return rants
+    
+    def __cleanup_rant_text(self, text):
+        text = text.replace("\\n", "\n")
+        text = text.replace("\\r", "\n")
+        text = text.replace("\\", "")
+        text = text.replace("\\\\", "")
+        text = text.replace("ud83dude2c", ":O")
+        text = text.replace("ud83dude03", ":D")
+        text = text.replace("ud83dude02", ";D")
+        text = text.replace("ud83dudc4d", "<tup>")
+        text = text.replace("ud83dudd95", "<finger>")
+        text = text.replace("ud83dude4c", "<clap>")
+        text = text.replace("ud83cudffc", "':D")
+        text = text.replace("ud83dude05", "")
+        text = text.replace("ud83dude12", ":/")
+        return text

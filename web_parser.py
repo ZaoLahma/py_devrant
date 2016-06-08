@@ -6,6 +6,14 @@ class Comment:
     def __init__(self):
         self.text = ""
         self.user = ""
+        
+class Rant:
+    def __init__(self):
+        self.id = -1
+        self.text = ""
+        self.user = ""
+        self.num_comments = 0
+        self.comments = []
 
 class WebParser():
     def __init__(self, address):
@@ -31,19 +39,26 @@ class WebParser():
         rants_ids = re.findall('\"id\":(.*?),\"text\":', str(raw_rants), re.S)
         rants_users = re.findall('user_username\":\"(.*?)\",\"user_score\"', str(raw_rants), re.S)
         rants_comments = re.findall(',\"comments\"(.*?)}]', str(raw_rants), re.S)
-        
+        rants_num_comments = re.findall('num_comments\":(.*?),', str(raw_rants), re.S)
         index = 0
         rants = []
+        rant = None
         for rant_id in rants_ids:
-            rants.append([rant_id, rants_text[index], rants_users[index], rants_comments])
+            rant = Rant()
+            rant.id = rant_id
+            rant.text = rants_text[index]
+            rant.user = rants_users[index]
+            rant.num_comments = rants_num_comments[index]
+            rant.comments = rants_comments
+            rants.append(rant)
             index += 1
         
         for rant in rants:
-            rant[1] = self.__cleanup_rant_text(rant[1])
+            rant.text = self.__cleanup_rant_text(rant.text)
         
-            if None != rant[3]:
+            if None != rant.comments:
                 comments = []
-                for raw_comment in rant[3]:
+                for raw_comment in rant.comments:
                     raw_comment_text = re.findall('body\":\"(.*?)\",', str(raw_comment), re.S)
                     raw_comment_user = re.findall('username\":\"(.*?)\",', str(raw_comment), re.S)
                     index = 0
@@ -56,7 +71,7 @@ class WebParser():
                         print("Processed comment: " + comment.text + " user: " + comment.user)
                         comments.append(comment)
                         index += 1
-                rant[3] = comments
+                rant.comments = comments
             
         return rants
     

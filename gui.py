@@ -20,12 +20,13 @@ class GUI:
     def print_rants(self, rants):
         self.print_logo()   
         for rant in rants:
-            print("Rant ID: " + rant[0] + "\n")
-            print(rant[1])
-            print("\n/" + rant[2])
-            if [] != rant[3]:
+            print("Rant ID: " + rant.id)
+            print("Comments: " + rant.num_comments + "\n")
+            print(rant.text)
+            print("\n/" + rant.user)
+            if [] != rant.comments:
                 print("====== Comments ======")
-                for comment in rant[3]:
+                for comment in rant.comments:
                     print(comment.text + " //" + comment.user)
                     print("-----------------------------------")
             print("===================================")

@@ -13,6 +13,7 @@ class GUI:
             print("search <term>      - Search for rant containing <term> returning a maximum of 20 rants")
             print("get <rant_id>      - Get a specific rant and its comments")
             print("n                  - Next page (where applicable)")
+            print("b                  - Back (where applicable)")
             print("r                  - Refresh/Repeat previous command")
             print("exit               - Exit program")
             user_input = input("Command: ")

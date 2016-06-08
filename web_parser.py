@@ -93,4 +93,5 @@ class WebParser():
         text = text.replace("ud83dude01", ">.<")
         text = text.replace("ud83dudc81", "")
         text = text.replace("ud83cudffd", "")
+        text = text.replace("ud83dude44", "<rolleyes>")
         return text

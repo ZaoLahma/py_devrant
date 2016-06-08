@@ -43,11 +43,12 @@ class DevRantManager:
             address = DevRantManager.__ADDRESS_BASE + "rants"
             command = {'app' : 3, 'sort' : 'recent', 'limit' : match_obj.group(1)}
             rants = self.web_parser.execute_command(address, command)
-        match_obj = re.match('view', user_input)
-        if match_obj:
-            address = DevRantManager.__ADDRESS_BASE + "rants"
-            command = {'app' : 3, 'sort' : 'recent'}
-            rants = self.web_parser.execute_command(address, command)    
+        else:
+            match_obj = re.match('view', user_input)
+            if match_obj:
+                address = DevRantManager.__ADDRESS_BASE + "rants"
+                command = {'app' : 3, 'sort' : 'recent'}
+                rants = self.web_parser.execute_command(address, command)    
         match_obj = re.match('search (.*) (.*)', user_input)
         if match_obj:
             address = DevRantManager.__ADDRESS_BASE + "search"

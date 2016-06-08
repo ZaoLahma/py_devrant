@@ -68,7 +68,6 @@ class WebParser():
                         comment = Comment()
                         comment.text = comment_text
                         comment.user = raw_comment_user[index]
-                        print("Processed comment: " + comment.text + " user: " + comment.user)
                         comments.append(comment)
                         index += 1
                 rant.comments = comments

@@ -9,6 +9,7 @@ class DevRantManager:
         self.web_parser = WebParser("www.devrant.io")
         self.prev_command = None
         self.page = 0
+        self.curr_limit = 0
         
     def start(self):
         running = True
@@ -28,7 +29,7 @@ class DevRantManager:
             return self.prev_command
         if user_input == "n":
             if None != self.prev_command:
-                self.page += 1
+                self.page += self.curr_limit
                 self.__handle_input(self.prev_command)
             return self.prev_command
         match_obj = re.match('surprise', user_input)
@@ -42,10 +43,12 @@ class DevRantManager:
         match_obj = re.match('top (.*)', user_input)
         if match_obj:
             address = DevRantManager.__ADDRESS_BASE + "rants"
+            self.curr_limit = int(match_obj.group(1))
             command = {'app' : 3, 'sort' : 'top', 'limit' : match_obj.group(1), 'skip' : self.page}   
         match_obj = re.match('view (.*)', user_input)
         if match_obj:
             address = DevRantManager.__ADDRESS_BASE + "rants"
+            self.curr_limit = int(match_obj.group(1))
             command = {'app' : 3, 'sort' : 'recent', 'limit' : match_obj.group(1), 'skip' : self.page}
         else:
             match_obj = re.match('view', user_input)

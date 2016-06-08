@@ -22,6 +22,7 @@ class GUI:
     def print_rants(self, rants):
         #self.print_logo()
         for rant in rants:
+            print("--------------------------------------------------")
             print("Rant ID: " + rant.id)
             print("Comments: " + rant.num_comments + "\n")
             print(rant.text)
@@ -31,7 +32,8 @@ class GUI:
                 for comment in rant.comments:
                     print(comment.text + " //" + comment.user)
                     print("-----------------------------------")
-            print("--------------------------------------------------")
+                    
+        print("--------------------------------------------------")
             
     def print_logo(self):
         print("==================================================") 

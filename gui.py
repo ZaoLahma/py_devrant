@@ -5,7 +5,8 @@ class GUI:
     def show_menu(self, state):
         user_input = None
         if "MAIN_MENU" == state:
-            #self.print_logo()
+            self.print_logo()
+            print("This is a completely unofficial Devrant (www.devrant.io) reader.")
             print("====== MENU ======")
             print("top 1-50 - View the top rated rants")
             print("surprise - Get a random rant")
@@ -19,7 +20,7 @@ class GUI:
         return user_input
     
     def print_rants(self, rants):
-        self.print_logo()   
+        self.print_logo()
         for rant in rants:
             print("Rant ID: " + rant.id)
             print("Comments: " + rant.num_comments + "\n")
@@ -39,4 +40,4 @@ class GUI:
         print("#   # ####   #  #  ####  ###### # #  #    #")
         print("#  #  #      #  #  #  #  #    # #  # #    #")
         print("###   #####   ##   #   # #    # #    #    #")
-        print("==================================================")     
+        print("==================================================")    

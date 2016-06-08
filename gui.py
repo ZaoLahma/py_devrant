@@ -1,8 +1,9 @@
 class GUI:
+    def __init__(self):
+        self.print_logo()
     def show_menu(self, state):
         user_input = None
         if "MAIN_MENU" == state:
-            self.print_logo()
             print("This is a completely unofficial Devrant (www.devrant.io) reader.")
             print("== COMMANDS ===========================================================================")
             print("view               - View most recent rants")
@@ -11,6 +12,7 @@ class GUI:
             print("surprise           - Get a random rant")
             print("search <term>      - Search for rant containing <term> returning a maximum of 20 rants")
             print("get <rant_id>      - Get a specific rant and its comments")
+            print("n                  - Next page (where applicable)")
             print("r                  - Refresh/Repeat previous command")
             print("exit               - Exit program")
             user_input = input("Command: ")
@@ -18,7 +20,7 @@ class GUI:
         return user_input
     
     def print_rants(self, rants):
-        self.print_logo()
+        #self.print_logo()
         for rant in rants:
             print("Rant ID: " + rant.id)
             print("Comments: " + rant.num_comments + "\n")

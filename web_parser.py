@@ -23,6 +23,7 @@ class WebParser():
         encoded_command = address
         if None != command: 
             encoded_command = encoded_command + "?" + urllib.parse.urlencode(command)
+        #print(encoded_command)
         self.connection.request("GET", encoded_command)
         response = self.connection.getresponse()
         if 200 == response.status:
@@ -94,4 +95,5 @@ class WebParser():
         text = text.replace("ud83dudc81", "")
         text = text.replace("ud83cudffd", "")
         text = text.replace("ud83dude44", "<rolleyes>")
+        text = text.replace("ud83dude13", "':(")
         return text

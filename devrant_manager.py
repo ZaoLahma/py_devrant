@@ -8,6 +8,7 @@ class DevRantManager:
         self.gui = GUI()
         self.web_parser = WebParser("www.devrant.io")
         self.prev_command = None
+        self.page = 0
         
     def start(self):
         running = True
@@ -25,6 +26,11 @@ class DevRantManager:
             if None != self.prev_command:
                 self.__handle_input(self.prev_command)
             return self.prev_command
+        if user_input == "n":
+            if None != self.prev_command:
+                self.page += 1
+                self.__handle_input(self.prev_command)
+            return self.prev_command
         match_obj = re.match('surprise', user_input)
         if match_obj:
             address = DevRantManager.__ADDRESS_BASE + "rants/" + match_obj.group(0)
@@ -36,20 +42,20 @@ class DevRantManager:
         match_obj = re.match('top (.*)', user_input)
         if match_obj:
             address = DevRantManager.__ADDRESS_BASE + "rants"
-            command = {'app' : 3, 'sort' : 'top', 'limit' : match_obj.group(1)}   
+            command = {'app' : 3, 'sort' : 'top', 'limit' : match_obj.group(1), 'skip' : self.page}   
         match_obj = re.match('view (.*)', user_input)
         if match_obj:
             address = DevRantManager.__ADDRESS_BASE + "rants"
-            command = {'app' : 3, 'sort' : 'recent', 'limit' : match_obj.group(1)}
+            command = {'app' : 3, 'sort' : 'recent', 'limit' : match_obj.group(1), 'skip' : self.page}
         else:
             match_obj = re.match('view', user_input)
             if match_obj:
                 address = DevRantManager.__ADDRESS_BASE + "rants"
-                command = {'app' : 3, 'sort' : 'recent'}  
+                command = {'app' : 3, 'sort' : 'recent', 'skip' : self.page}  
         match_obj = re.match('search (.*)', user_input)
         if match_obj:
             address = DevRantManager.__ADDRESS_BASE + "search"
-            command = {'app' : 3, 'term' : match_obj.group(1)}
+            command = {'app' : 3, 'term' : match_obj.group(1), 'skip' : self.page}
         if None != command and None != address:
             rants = self.web_parser.execute_command(address, command)
         if None != rants:

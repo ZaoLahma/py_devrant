@@ -40,6 +40,8 @@ class DevRantManager:
             return self.curr_command
         if user_input == "b":
             if None != self.prev_command:
+                if self.page - self.curr_limit >= 0:
+                    self.page -= self.curr_limit                
                 self.__handle_input(self.prev_command)
             return self.prev_command
         match_obj = re.match('surprise', user_input)

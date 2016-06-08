@@ -8,10 +8,13 @@ class GUI:
         user_input = None
         if "MAIN_MENU" == state:
             #self.print_logo()
+            print("====== MENU ======")
             print("top 1-50 - View the top rated rants")
+            print("surprise - Get a random rant")
             print("view 1-50 - View most recent rants, printing a maximum of 50 rants")
             print("search <term> 1-50 - Search for rant containing <term> returning a maximum of 50 rants")
             print("get <rant_id> - Get a specific rant and its comments")
+            print("r - Refresh/Repeat previous command")
             print("exit - Exit program")
             user_input = input("Command: ")
             

@@ -89,4 +89,8 @@ class WebParser():
         text = text.replace("ud83cudffc", "':D")
         text = text.replace("ud83dude05", "")
         text = text.replace("ud83dude12", ":/")
+        text = text.replace("ud83dude1c", ":P")
+        text = text.replace("ud83dude10", ":|")
+        text = text.replace("ud83dudc4f", "<clap>")
+        text = text.replace("ud83dude01", ">.<")
         return text

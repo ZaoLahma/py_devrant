@@ -8,10 +8,11 @@ class GUI:
             self.print_logo()
             print("This is a completely unofficial Devrant (www.devrant.io) reader.")
             print("====== MENU ======")
-            print("top 1-50 - View the top rated rants")
+            print("view - View most recent rants")
+            print("view <no_of_rants> - View most recent rants, printing a maximum of 50 rants")            
+            print("top <no_of_rants> - View the top rated rants, returning at most 50 rants")
             print("surprise - Get a random rant")
-            print("view 1-50 - View most recent rants, printing a maximum of 50 rants")
-            print("search <term> 1-50 - Search for rant containing <term> returning a maximum of 50 rants")
+            print("search <term> <no_of_rants - Search for rant containing <term> returning a maximum of 50 rants")
             print("get <rant_id> - Get a specific rant and its comments")
             print("r - Refresh/Repeat previous command")
             print("exit - Exit program")
@@ -27,11 +28,11 @@ class GUI:
             print(rant.text)
             print("\n/" + rant.user)
             if [] != rant.comments:
-                print("====== Comments ======")
+                print("\n------ Comments ------")
                 for comment in rant.comments:
                     print(comment.text + " //" + comment.user)
                     print("-----------------------------------")
-            print("===================================")
+            print("--------------------------------------------------")
             
     def print_logo(self):
         print("==================================================") 

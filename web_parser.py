@@ -17,9 +17,11 @@ class Rant:
 
 class WebParser():
     def __init__(self, address):
-        self.connection = HTTPSConnection(address)
+        self.connection = None
+        self.address = address
         
     def execute_command(self, address, command):
+        self.connection = HTTPSConnection(self.address)        
         encoded_command = address
         if None != command: 
             encoded_command = encoded_command + "?" + urllib.parse.urlencode(command)
@@ -101,4 +103,5 @@ class WebParser():
         text = text.replace("ud83dude20", ">:(")
         text = text.replace("ud83dude11", ":|")
         text = text.replace("ud83dude23", ">.<")
+        text = text.replace("ud83dude27", ":O")
         return text

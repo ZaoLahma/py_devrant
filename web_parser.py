@@ -48,7 +48,7 @@ class WebParser():
         for rant_id in rants_ids:
             rant = Rant()
             rant.id = rant_id
-            rant.text = rants_text[index]
+            rant.text = self.__cleanup_rant_text(rants_text[index])
             rant.user = rants_users[index]
             rant.num_comments = rants_num_comments[index]
             rant.comments = rants_comments
@@ -56,8 +56,6 @@ class WebParser():
             index += 1
         
         for rant in rants:
-            rant.text = self.__cleanup_rant_text(rant.text)
-        
             if None != rant.comments:
                 comments = []
                 for raw_comment in rant.comments:

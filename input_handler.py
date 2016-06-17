@@ -85,13 +85,13 @@ class InputHandler:
     
     def __set_state(self, state):
         if self.state != state:
-            if self.__pageState(state):
+            if self.__pageState(state) and self.__pageState(self.state):
                 self.page = 0
                 self.limit = 20
         self.state = state
         
     def __pageState(self, state):
-        if self.state == "VIEW" or self.state == "TOP" or self.state == "SEARCH":
+        if state == "VIEW" or state == "TOP" or state == "SEARCH":
             return True
-        
+     
         return False

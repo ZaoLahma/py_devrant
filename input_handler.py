@@ -10,6 +10,7 @@ class InputHandler:
         self.executed_commands = []
         self.page = 0
         self.limit = 20
+        self.sort = "recent"
         self.state = "NO_STATE"
         
     def handle_input(self):
@@ -24,7 +25,7 @@ class InputHandler:
                     self.executed_commands.append(user_input)
                 rants = self.web_parser.execute_command(command[1], command[2])
                 if None != rants:
-                    self.gui.print_rants(rants)
+                    self.gui.print_rants(rants, int(self.page / self.limit))
             
     def get_command(self, user_input):
         retval = [False, None, None]
@@ -47,12 +48,16 @@ class InputHandler:
             retval[1] = InputHandler.__ADDRESS_BASE + "rants/" + user_input
             retval[2] = {'app' : 3}
             retval[0] = True
+        res = re.match('sort(\s)(algo|recent)', user_input)
+        if res:
+            self.sort = res.group(2)
+            self.page = 0
         res = re.match('view(\s)(\d+)', user_input)
         if res:
             self.__set_state("VIEW")
             self.limit = int(res.group(2))
             retval[1] = InputHandler.__ADDRESS_BASE + "rants"
-            retval[2] = {'app' : 3, 'sort' : 'recent', 'limit' : self.limit, 'skip' : self.page}
+            retval[2] = {'app' : 3, 'sort' : self.sort, 'limit' : self.limit, 'skip' : self.page}
             retval[0] = True
         else:
             res = re.match('view', user_input)
@@ -60,7 +65,7 @@ class InputHandler:
                 self.__set_state("VIEW")
                 self.limit = 20
                 retval[1] = InputHandler.__ADDRESS_BASE + "rants"
-                retval[2] = {'app' : 3, 'sort' : 'recent', 'limit' : self.limit, 'skip' : self.page}
+                retval[2] = {'app' : 3, 'sort' : self.sort, 'limit' : self.limit, 'skip' : self.page}
                 retval[0] = True
         res = re.match('search(\s)(.*)', user_input)
         if res:

@@ -5,8 +5,9 @@ class GUI:
         user_input = None
         print("This is a completely unofficial Devrant (www.devrant.io) reader.")
         print("== COMMANDS ===========================================================================")
-        print("view               - View most recent rants")
-        print("view <no_of_rants> - View most recent rants, printing a maximum of 50 rants")            
+        print("sort <algo/recent> - Set algorithm for view command. Default is recent.")
+        print("view               - View rants based on current sort setting")
+        print("view <no_of_rants> - View rants, returning a maximum of 50 rants")            
         print("top <no_of_rants>  - View the top rated rants, returning at most 50 rants")
         print("surprise           - Get a random rant")
         print("search <term>      - Search for rant containing <term> returning a maximum of 20 rants")
@@ -19,7 +20,7 @@ class GUI:
             
         return user_input
     
-    def print_rants(self, rants):
+    def print_rants(self, rants, page):
         #self.print_logo()
         for rant in rants:
             print("--------------------------------------------------")
@@ -31,9 +32,9 @@ class GUI:
                 print("\n------ Comments ------")
                 for comment in rant.comments:
                     print(comment.text + " //" + comment.user)
-                    print("-----------------------------------")
-                    
+                    print("-----------------------------------")          
         print("--------------------------------------------------")
+        print("Current page: " + str(page) + "\n")   
             
     def print_logo(self):
         print("==================================================") 

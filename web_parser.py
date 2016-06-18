@@ -108,4 +108,6 @@ class WebParser():
         text = text.replace("ud83eudd14", " <thinking>")
         text = text.replace("u263a", " :)")
         text = text.replace("codeu2026", " ...")
+        text = text.replace("ud83dude0a", " ^_^")
+        text = text.replace("ud83dudd2b", " <shoot me>")
         return text

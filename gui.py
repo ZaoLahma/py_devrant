@@ -25,6 +25,7 @@ class GUI:
         for rant in rants:
             print("--------------------------------------------------")
             print("Rant ID: " + rant.id)
+            print("Score: " + rant.score)
             print("Comments: " + rant.num_comments + "\n")
             print(rant.text)
             print("\n/" + rant.user)

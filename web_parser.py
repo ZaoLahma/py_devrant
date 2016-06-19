@@ -12,6 +12,7 @@ class Rant:
         self.id = -1
         self.text = ""
         self.user = ""
+        self.score = 0
         self.num_comments = 0
         self.comments = []
 
@@ -38,6 +39,7 @@ class WebParser():
     def __parse_entries(self, raw_rants):
         #In serious need of refactoring
         rants_text = re.findall('text\":\"(.*?)\",', str(raw_rants), re.S)
+        rants_scores = re.findall('score\":(\d+),\"', str(raw_rants))
         rants_ids = re.findall('\"id\":(.*?),\"text\":', str(raw_rants), re.S)
         rants_users = re.findall('user_username\":\"(.*?)\",\"user_score\"', str(raw_rants), re.S)
         rants_comments = re.findall(',\"comments\"(.*?)}]', str(raw_rants), re.S)
@@ -50,6 +52,7 @@ class WebParser():
             rant.id = rant_id
             rant.text = self.__cleanup_rant_text(rants_text[index])
             rant.user = rants_users[index]
+            rant.score = rants_scores[index]
             rant.num_comments = rants_num_comments[index]
             rant.comments = rants_comments
             rants.append(rant)

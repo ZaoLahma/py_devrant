@@ -12,8 +12,8 @@ class Rant:
         self.id = -1
         self.text = ""
         self.user = ""
-        self.score = 0
-        self.num_comments = 0
+        self.score = '0'
+        self.num_comments = '0'
         self.comments = []
 
 class WebParser():
@@ -26,7 +26,6 @@ class WebParser():
         encoded_command = address
         if None != command: 
             encoded_command = encoded_command + "?" + urllib.parse.urlencode(command)
-        #print(encoded_command)
         self.connection.request("GET", encoded_command)
         response = self.connection.getresponse()
         if 200 == response.status:
@@ -35,47 +34,37 @@ class WebParser():
         else:
             print("Failed to fetch rant entries. Status: " + str(response.status) + ". Go rant about it.")
             return None
+     
+    def __parse_entries(self, raw_rants): 
+        parsed_rants = re.findall('\"rants\":(.*?)}\]', str(raw_rants), re.S)
+        if [] != parsed_rants:
+            return self.__extract_rants(parsed_rants)
         
-    def __parse_entries(self, raw_rants):
-        #In serious need of refactoring
-        rants_text = re.findall('text\":\"(.*?)\",', str(raw_rants), re.S)
-        rants_scores = re.findall('score\":(\d+),\"', str(raw_rants))
-        rants_ids = re.findall('\"id\":(.*?),\"text\":', str(raw_rants), re.S)
-        rants_users = re.findall('user_username\":\"(.*?)\",\"user_score\"', str(raw_rants), re.S)
-        rants_comments = re.findall(',\"comments\"(.*?)}]', str(raw_rants), re.S)
-        rants_num_comments = re.findall('num_comments\":(.*?),', str(raw_rants), re.S)
-        index = 0
-        rants = []
-        rant = None
-        for rant_id in rants_ids:
-            rant = Rant()
-            rant.id = rant_id
-            rant.text = self.__cleanup_rant_text(rants_text[index])
-            rant.user = rants_users[index]
-            rant.score = rants_scores[index]
-            rant.num_comments = rants_num_comments[index]
-            rant.comments = rants_comments
-            rants.append(rant)
-            index += 1
-        
-        for rant in rants:
-            if None != rant.comments:
-                comments = []
-                for raw_comment in rant.comments:
-                    raw_comment_text = re.findall('body\":\"(.*?)\",', str(raw_comment), re.S)
-                    raw_comment_user = re.findall('username\":\"(.*?)\",', str(raw_comment), re.S)
-                    index = 0
-                    for comment_text in raw_comment_text:
-                        #print("Raw comment " + raw_comment_text)
-                        comment_text = self.__cleanup_rant_text(comment_text)
-                        comment = Comment()
-                        comment.text = comment_text
-                        comment.user = raw_comment_user[index]
-                        comments.append(comment)
-                        index += 1
-                rant.comments = comments
+        else:
+            parsed_rant = re.findall('\"rant\":(.*?)\],\"success\":true}', str(raw_rants), re.S)
+            comments = re.findall('\"body\":\"(.*?)\",\"(.*?)\"user_username\":\"(.*?)\",\"', str(parsed_rant), re.S)
+            rant = self.__extract_rants(parsed_rant)  
+            for raw_comment in comments:
+                comment = Comment()
+                comment.text = self.__cleanup_rant_text(raw_comment[0])
+                comment.user = raw_comment[2]
+                rant[0].comments.append(comment)
             
-        return rants
+            return rant
+    
+    def __extract_rants(self, parsed_rants):
+        parsed_rants = re.findall('\"id\":(\d+)(.*?)\"text\":\"(.*?)\",(.*?)\"score\":(\d+)(.*?)\"num_comments\":(\d+)(.*?)\"user_username\":\"(.*?)\",(.*?)\"user_score\":(\d+)', str(parsed_rants), re.S)
+        
+        rants = []
+        for parsed_rant in parsed_rants:
+            rant = Rant()
+            rant.id = parsed_rant[0]
+            rant.text = self.__cleanup_rant_text(parsed_rant[2])
+            rant.score = parsed_rant[4]
+            rant.user = parsed_rant[8]
+            rant.num_comments = parsed_rant[6]
+            rants.append(rant)
+        return rants       
     
     def __cleanup_rant_text(self, text):
         text = text.replace("\\n", "\n")

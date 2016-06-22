@@ -2,10 +2,9 @@ class GUI:
     def __init__(self):
         self.print_logo()
     def show_menu(self, state):
-        user_input = None
-        print("This is a completely unofficial Devrant (www.devrant.io) reader.")
+        print("This is a completely unofficial devRant (www.devrant.io) reader.")
         print("== COMMANDS ===========================================================================")
-        print("sort <algo/recent> - Set algorithm for view command. Default is recent.")
+        print("sort <recent/algo> - Set algorithm for view command. Default is recent.")
         print("view               - View rants based on current sort setting")
         print("view <no_of_rants> - View rants, returning a maximum of 50 rants")            
         print("top <no_of_rants>  - View the top rated rants, returning at most 50 rants")
@@ -35,7 +34,7 @@ class GUI:
                     print(comment.text + " //" + comment.user)
                     print("-----------------------------------")          
         print("--------------------------------------------------")
-        print("Current page: " + str(page) + "\n")   
+        print("Current page: " + str(page + 1) + "\n")   
             
     def print_logo(self):
         print("==================================================") 

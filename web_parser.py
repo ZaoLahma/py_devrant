@@ -30,6 +30,7 @@ class WebParser():
         response = self.connection.getresponse()
         if 200 == response.status:
             raw_rants = response.read()
+            #print(raw_rants)
             return self.__parse_entries(raw_rants)
         else:
             print("Failed to fetch rant entries. Status: " + str(response.status) + ". Go rant about it.")
@@ -98,9 +99,11 @@ class WebParser():
         text = text.replace("ud83dude0e", " <cool>")
         text = text.replace("ud83dude06", " xD")
         text = text.replace("ud83eudd14", " <thinking>")
-        text = text.replace("u263a", " :)")
+        text = text.replace("u263aufe0f", " :)")
         text = text.replace("codeu2026", " ...")
         text = text.replace("ud83dude0a", " ^_^")
         text = text.replace("ud83dudd2b", " <shoot me>")
         text = text.replace("ud83dude41", " :(")
+        text = text.replace("ud83dude21", ">:(")
+        text = text.replace("ud83dudc4c", "")
         return text

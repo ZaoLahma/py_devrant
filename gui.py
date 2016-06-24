@@ -34,7 +34,7 @@ class GUI:
                     print(comment.text + " //" + comment.user)
                     print("-----------------------------------")          
         print("--------------------------------------------------")
-        print("Current page: " + str(page + 1) + "\n")   
+        print("Current page: " + str(page) + "\n")   
             
     def print_logo(self):
         print("==================================================") 

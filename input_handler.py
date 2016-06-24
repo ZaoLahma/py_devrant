@@ -25,7 +25,7 @@ class InputHandler:
                     self.executed_commands.append(user_input)
                 rants = self.web_parser.execute_command(command[1], command[2])
                 if None != rants:
-                    self.gui.print_rants(rants, int(self.page / self.limit))
+                    self.gui.print_rants(rants, int((self.page / self.limit) + 1))
             
     def get_command(self, user_input):
         retval = [False, None, None]

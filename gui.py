@@ -26,7 +26,19 @@ class GUI:
             print("Rant ID: " + rant.id)
             print("Score: " + rant.score)
             print("Comments: " + rant.num_comments + "\n")
-            print(rant.text)
+            toPrint = []
+            lineLength = 0
+            for word in rant.text.split(' '):
+                if lineLength + len(word) + 1 < 100:
+                    toPrint.append(word + " ")
+                    lineLength += len(word) + 1
+                else:
+                    print(''.join(toPrint))
+                    toPrint = []
+                    toPrint.append(word + " ")
+                    lineLength = len(word) + 1
+            print(''.join(toPrint))
+            toPrint = []
             print("\n/" + rant.user)
             if [] != rant.comments:
                 print("\n------ Comments ------")
